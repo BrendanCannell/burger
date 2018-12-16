@@ -1,0 +1,7 @@
+<li class="list-group-item d-flex align-items-center justify-content-between {{#if devoured}}disabled{{/if}}">
+  <p class="my-0">{{name}}</p>
+
+  <button type="button" class="devour btn btn-danger ml-3" data-id="{{id}}" {{#if devoured}} style="visibility: hidden"{{/if}}>
+    DEVOUR!
+  </button>
+</li>

@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="navbar navbar-dark bg-primary mb-3 justify-content-center">
+    <h1 class="mb-1 display-4 text-white">Burgers!</h1>
+  </div>
+
+  <div class="row">
+    <div class="not-devoured col mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h2 class="card-header text-center">Not Devoured</h2>
+
+          <ul class="list-group">
+            {{#each burgers}}
+            {{#unless devoured}}
+            {{> burger}}
+            {{/unless}}
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="devoured col mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h2 class="card-header text-center">Devoured</h2>
+
+          <ul class="list-group">
+            {{#each burgers}}
+            {{#if devoured}}
+            {{> burger}}
+            {{/if}}
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form class="create row form-inline justify-content-center">
+    <div class="form-group mb-2">
+      <label for="name">Add a Burger:</label>
+      <input class="name form-control mx-3" type="text" id="name" name="name">
+    </div>
+    <div class="form-group mx-3 mb-2">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+  </form>
+</div>
