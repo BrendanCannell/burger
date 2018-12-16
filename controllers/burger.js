@@ -1,16 +1,15 @@
 let express = require('express');
 
-module.exports = async (app) => {
-  let burger = await (require("../models/burger.js")());
+module.exports = async () => {
+  let burger = await require("../models/burger.js")();
+  let logErrors = (fn) => (req, res) =>
+      fn(req, res).catch((e) => console.log(e) || res.sendStatus(500));
 
   return express.Router()
-    // View
-    .get("/", (_, res) => burger.all().then((burgers) => res.render("index", { burgers })))
-
     // Public controller interface
-    .get("/api", (req, res) => burger.all(req.body).then((burgers) => res.json(burgers)))
-    .post("/api", (req, res) => burger.create(req.body).then(() => res.end()))
-    .put("/api", (req, res) => burger.devour(req.body).then(() => res.end()))
+    .get("/api", logErrors(async (req, res) => res.json(await burger.all(req.body))))
+    .post("/api", logErrors(async (req, res) => await burger.create(req.body) && res.end()))
+    .put("/api", logErrors(async (req, res) => await burger.devour(req.body) && res.end()))
 
     // "Private" reset button
     .delete("/api/reset", async (req, res) => {
@@ -22,4 +21,8 @@ module.exports = async (app) => {
 
       res.end();
     })
+
+    // Views
+    .get("/", async (req, res) => res.render("index", { burgers: await burger.all() }))
+    .get("*", async (req, res) => res.redirect("/"))
 }
